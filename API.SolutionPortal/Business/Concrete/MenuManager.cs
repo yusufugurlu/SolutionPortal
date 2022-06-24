@@ -14,11 +14,26 @@ namespace API.SolutionPortal.Business.Concrete
         public ServiceResult GetMenus(MenuParamaterDto menuParamaterDto)
         {
             ServiceResult result = new ServiceResult();
-            var menus= MenuData.Menus.Where(x=>x.PersonRoleType==(PersonRoleType)menuParamaterDto.Id).Select(x=>new MenuDto() {
-                Name=x.Name,
-                Url=x.Url
-            }).ToList();
-            result.Data = menus;
+            var menus = new List<MenuDto>();
+            if (((PersonRoleType)menuParamaterDto.Id) == PersonRoleType.Admin)
+            {
+                menus = MenuData.Menus.Select(x => new MenuDto()
+                {
+                    Name = x.Name,
+                    Url = x.Url
+                }).ToList();
+                result.Data = menus;
+            }
+            else
+            {
+                menus = MenuData.Menus.Where(x => x.PersonRoleType == PersonRoleType.Person).Select(x => new MenuDto()
+                {
+                    Name = x.Name,
+                    Url = x.Url
+                }).ToList();
+                result.Data = menus;
+            }
+
             result.StatusCode = 200;
             return result;
         }
