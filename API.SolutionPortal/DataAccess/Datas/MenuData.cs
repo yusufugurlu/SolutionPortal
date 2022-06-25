@@ -36,6 +36,12 @@ namespace API.SolutionPortal.DataAccess.Datas
             },
                  new Menu(){
                 Id=5,
+                Name="Vergi Kodu",
+                PersonRoleType=Common.Enums.PersonRoleType.Admin,
+                Url="TaxCode.html",
+            },
+                 new Menu(){
+                Id=6,
                 Name=" Ana Hesap Eşleştirme",
                 PersonRoleType=Common.Enums.PersonRoleType.Admin,
                 Url="Matching.html",
