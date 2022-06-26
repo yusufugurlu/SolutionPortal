@@ -13,6 +13,7 @@ namespace API.SolutionPortal.Models
         public int Id { get; set; }
         public Company Company { get; set; }
         public int CompanyId { get; set; }
+        public string CompanyName { get; set; }
         /// <summary>
         /// Masraf merkezi kodu
         /// </summary>
