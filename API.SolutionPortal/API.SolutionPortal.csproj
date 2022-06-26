@@ -159,11 +159,13 @@
     <Compile Include="Business\Abstract\ICostCenterService.cs" />
     <Compile Include="Business\Concrete\CompanyManager.cs" />
     <Compile Include="Business\Concrete\CostCenterManager.cs" />
+    <Compile Include="Business\Concrete\CostTypeManager.cs" />
     <Compile Include="Business\Concrete\MenuManager.cs" />
     <Compile Include="Business\Concrete\PersonManager.cs" />
     <Compile Include="Common\Enums\PersonRoleType.cs" />
     <Compile Include="Common\ServiceResult.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
+    <Compile Include="Controllers\CostTypeController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
@@ -2640,6 +2642,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="CostType.html" />
     <Content Include="dist\css\pages\bootstrap-switch.css" />
     <Content Include="dist\css\pages\breadcrumb-page.css" />
     <Content Include="dist\css\pages\chat-app-page.css" />
@@ -3555,6 +3558,7 @@
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="UI_Service\Company.js" />
+    <Content Include="UI_Service\CostType.js" />
     <Content Include="UI_Service\Login.js" />
     <Content Include="UI_Service\Menu.js" />
     <Content Include="Web.config" />

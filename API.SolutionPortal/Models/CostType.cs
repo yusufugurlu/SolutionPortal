@@ -17,6 +17,7 @@ namespace API.SolutionPortal.Models
         /// Ana Hesap
         /// </summary>
         public string ParentAccount { get; set; }
+        public bool IsDeleted { get; set; }
 
     }
 }
