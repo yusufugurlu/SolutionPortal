@@ -1,4 +1,5 @@
 ﻿using API.SolutionPortal.Business.Abstract;
+using API.SolutionPortal.Common;
 using API.SolutionPortal.DataAccess.Datas;
 using API.SolutionPortal.Dtos;
 using API.SolutionPortal.Models;
@@ -11,36 +12,63 @@ namespace API.SolutionPortal.Business.Concrete
 {
     public class CompanyManager : ICompanyService
     {
-        public Company Add(Company company)
+        public ServiceResult Add(Company company)
         {
-            var lastCompany = CompanyData.Companies.LastOrDefault();
-            if (lastCompany != null)
+            ServiceResult result = new ServiceResult();
+            if (company.Id==0)
             {
-                company.Id = lastCompany.Id + 1;
+                var lastCompany = CompanyData.Companies.LastOrDefault();
+                if (lastCompany != null)
+                {
+                    company.Id = lastCompany.Id + 1;
+                }
+                else
+                {
+                    company.Id = 1;
+                }
+                CompanyData.Companies.Add(company);
             }
             else
             {
-                company.Id = 1;
+                var com = CompanyData.Companies.Where(x => x.Id == company.Id).FirstOrDefault();
+                if (com != null)
+                {
+                    com.CompanyCode = company.CompanyCode;
+                    com.CompanyDefination = company.CompanyDefination;
+                }
             }
-            CompanyData.Companies.Add(company);
-            return company;
+
+            result.StatusCode = 200;
+            result.Message = "İşlem başarılı";
+            return result;
         }
 
-        public bool Delete(int id)
+        public ServiceResult Delete(Company company)
         {
-            var company = CompanyData.Companies.Where(x => x.Id == id).FirstOrDefault();
-            if (company != null)
+            ServiceResult result = new ServiceResult();
+            var com = CompanyData.Companies.Where(x => x.Id == company.Id).FirstOrDefault();
+            if (com != null)
             {
-                company.IsDeleted = true;
-                return true;
+                com.IsDeleted = true;
+                result.StatusCode = 200;
+                result.Message = "İşlem başarılı";
             }
-            return false;
+            else
+            {
+                result.StatusCode = 400;
+                result.Message = "Şirket bulunamadı.";
+            }
+
+            return result;
         }
 
-        public Company Get(Company company)
+        public ServiceResult Get(Company company)
         {
-            var com = CompanyData.Companies.Where(x => !x.IsDeleted).Where(x => x.Id == company.Id).FirstOrDefault();
-            return com;
+            ServiceResult result = new ServiceResult();
+           result.Data = CompanyData.Companies.Where(x => !x.IsDeleted).Where(x => x.Id == company.Id).FirstOrDefault();
+            result.StatusCode = 200;
+            result.Message = "İşlem başarılı";
+            return result;
         }
 
         public List<CompanyDropdownDto> GetcompanyForDropdown()
@@ -52,9 +80,13 @@ namespace API.SolutionPortal.Business.Concrete
             }).ToList();
         }
 
-        public List<Company> GetList()
+        public ServiceResult GetList()
         {
-            return CompanyData.Companies.Where(x => !x.IsDeleted).ToList();
+            ServiceResult result = new ServiceResult();
+            result.StatusCode = 200;
+            result.Data= CompanyData.Companies.Where(x => !x.IsDeleted).ToList();
+            result.Message = "İşlem başarılı";
+            return result;
         }
 
         public Company Update(Company company)

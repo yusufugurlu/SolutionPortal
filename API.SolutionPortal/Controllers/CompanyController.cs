@@ -1,5 +1,6 @@
 ﻿using API.SolutionPortal.Business.Abstract;
 using API.SolutionPortal.Business.Concrete;
+using API.SolutionPortal.Common;
 using API.SolutionPortal.Dtos;
 using API.SolutionPortal.Models;
 using System;
@@ -21,13 +22,13 @@ namespace API.SolutionPortal.Controllers
         }
 
         [HttpPost]
-        public Company Get(Company company)
+        public ServiceResult Get(Company company)
         {
             return _companyService.Get(company);
         }
 
         [HttpGet]
-        public List<Company> GetList()
+        public ServiceResult GetList()
         {
             return _companyService.GetList();
         }
@@ -39,15 +40,15 @@ namespace API.SolutionPortal.Controllers
         }
 
         [HttpPost]
-        public Company Add(Company company)
+        public ServiceResult Add(Company company)
         {
             return _companyService.Add(company);
         }
 
         [HttpPost]
-        public bool Delete(int id)
+        public ServiceResult Delete(Company company)
         {
-            return _companyService.Delete(id);
+            return _companyService.Delete(company);
         }
 
         [HttpPost]

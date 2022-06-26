@@ -1,4 +1,5 @@
-﻿using API.SolutionPortal.Dtos;
+﻿using API.SolutionPortal.Common;
+using API.SolutionPortal.Dtos;
 using API.SolutionPortal.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,10 @@ namespace API.SolutionPortal.Business.Abstract
 {
     public interface ICompanyService
     {
-        Company Add(Company company);
-        List<Company> GetList();
-        Company Get(Company company);
-        bool Delete(int id);
+        ServiceResult Add(Company company);
+        ServiceResult GetList();
+        ServiceResult Get(Company company);
+        ServiceResult Delete(Company company);
         Company Update(Company company);
         List<CompanyDropdownDto> GetcompanyForDropdown();
     }

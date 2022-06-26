@@ -107,7 +107,7 @@
                                 <!-- text-->
                                 <a href="javascript:void(0)" class="dropdown-item"><i class="ti-user"></i> Profilim</a>
                                 <!-- text-->
-                                <a  id="btnLogOut" class="dropdown-item"><i class="fa fa-power-off"></i> Çıkış</a>
+                                <a id="btnLogOut" class="dropdown-item"><i class="fa fa-power-off"></i> Çıkış</a>
                                 <!-- text-->
                             </div>
                         </li>
@@ -316,76 +316,8 @@
     <!-- Chart JS -->
     <script src="dist/js/dashboard1.js"></script>
     <script src="../assets/node_modules/toast-master/js/jquery.toast.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            var PersonRoleFullName = localStorage.getItem("PersonRoleFullName");
-            var PersonRolePersonType = localStorage.getItem("PersonRolePersonType");
-            var PersonTypeName = localStorage.getItem("PersonTypeName");
-            var MenuList = localStorage.getItem("MenuList");
-            var menumsg = "";
-            var tmpMenuList = [];
-            if (PersonRoleFullName && PersonRolePersonType && PersonTypeName) {
-                $("#lblFullName").text(PersonRoleFullName);
-            }
-            else {
-                window.location.href = "/Login.html";
-            }
-            var dto = {
-                Id: PersonRolePersonType
-            };
-            if (!MenuList) {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:51503/api/Menu/GetMenus",
-                    data: JSON.stringify(dto),// now data come in this function
-                    contentType: "application/json; charset=utf-8",
-                    crossDomain: true,
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-
-                        if (data.StatusCode === 200) {
-                            localStorage.setItem("MenuList", JSON.stringify(data.Data));
-                            tmpMenuList = data.Data;
-                            console.log(data.Data);
-                            data.Data.map((item) => {
-                                menumsg += "<li>";
-                                menumsg += " <a class='waves-effect waves-dark' href='" + item.Url + "' aria-expanded='false'><i class='ti-layout-grid2'></i><span class='hide-menu'>" + item.Name + "</span></a>";
-                                menumsg += "</li>";
-                            });
-                            $("#sidebarnav").html(menumsg);
-                        }
-                    },
-
-                    error: function (jqXHR, status) {
-                        // error handler
-                        console.log(jqXHR);
-                        alert('fail' + status.code);
-                    }
-                });
-            }
-            else {
-                tmpMenuList = JSON.parse(MenuList);
-            }
-
-            
-            tmpMenuList.map((item) => {
-                menumsg += "<li>";
-                menumsg += " <a class='waves-effect waves-dark' href='"+item.Url+"' aria-expanded='false'><i class='ti-layout-grid2'></i><span class='hide-menu'>"+item.Name+"</span></a>";
-                menumsg += "</li>";
-            })
-            $("#sidebarnav").html(menumsg);
-
-            $("#btnLogOut").click(function () {
-               localStorage.removeItem("PersonRoleFullName");
-                localStorage.removeItem("PersonRolePersonType");
-                localStorage.removeItem("PersonTypeName");
-                localStorage.removeItem("MenuList");
-                window.location.href = "/Login.html";
-
-            });
-
-        });
-    </script>
+    <script src="UI_Service/Login.js"></script>
+    <script src="UI_Service/Menu.js"></script>
 </body>
 
 </html>

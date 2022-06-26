@@ -74,49 +74,13 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="assets/node_modules/popper/popper.min.js"></script>
     <script src="assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="UI_Service/Login.js"></script>
     <!--Custom JavaScript -->
     <script type="text/javascript">
         $(function () {
             $(".preloader").fadeOut();
-            $("#btnLogin").click(function () {
-                var username = $("#txtUserName").val();
-                var pass = $("#txtPassword").val();
-                var dto = {
-                    UserName: username,
-                    Password: pass
-                };
-                $("#btnLogin").prop("disabled", true);
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:51503/api/Person/Login",
-                    data: JSON.stringify(dto),// now data come in this function
-                    contentType: "application/json; charset=utf-8",
-                    crossDomain: true,
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-
-                        if (data.StatusCode === 200) {
-                            localStorage.setItem("PersonRoleFullName", data.Data.FullName);
-                            localStorage.setItem("PersonRolePersonType", data.Data.PersonType);
-                            localStorage.setItem("PersonTypeName", data.Data.PersonTypeName);
-                            
-                            window.location.href = "/Index.html";
-                        }
-                        else {
-                            alert(data.Message);
-                        }
-                        $("#btnLogin").prop("disabled", false);
-                    },
-
-                    error: function (jqXHR, status) {
-                        // error handler
-                        console.log(jqXHR);
-                        alert('fail' + status.code);
-                        $("#btnLogin").prop("disabled", false);
-                    }
-                });
-            });
         });
+
         $(function () {
             $('[data-toggle="tooltip"]').tooltip()
         });

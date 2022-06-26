@@ -156,14 +156,54 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">Şirket</h4>
+                        <h4 class="text-themecolor">Şirketler</h4>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="companyCode">Şirket Kodu</label>
+                                <input type="text" class="form-control" id="txtCompanyCode" aria-describedby="companyCode" placeholder="Şirket Kodu">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="companyDesc">Şirket Tanımı</label>
+                                <input type="text" class="form-control" id="txtCompanyDescription" aria-describedby="companyDesc" placeholder="Şirket Tanımı">
+                            </div>
+                            <div class="col-md-4" style="margin-top:30px">
+                                <button type="button" id="btnCompanySave" class="btn btn-success"> <i class="fa fa-check"></i> Kaydet</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title">Şirketler </h4>
+                            <h6 class="card-subtitle">Bu tabloda şirketler listelenmektedir.</h6>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Şirket Kodu</th>
+                                            <th>Şirket Tanımı</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tBodyCompany"></tbody>
+                                </table>
+                            </div>
+                            <input type="hidden" name="hdCompanyClickType" id="hdCompanyClickType" value="" />
+                            <input type="hidden" name="hdCompanyId" id="hdCompanyId" value="" />
+                        </div>
                     </div>
                 </div>
                 <!-- ============================================================== -->
                 <!-- End Bread crumb and right sidebar toggle -->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
-
                 <!-- End Page Content -->
                 <!-- ============================================================== -->
                 <!-- ============================================================== -->
@@ -216,76 +256,9 @@
     <!-- Chart JS -->
     <script src="dist/js/dashboard1.js"></script>
     <script src="../assets/node_modules/toast-master/js/jquery.toast.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            var PersonRoleFullName = localStorage.getItem("PersonRoleFullName");
-            var PersonRolePersonType = localStorage.getItem("PersonRolePersonType");
-            var PersonTypeName = localStorage.getItem("PersonTypeName");
-            var MenuList = localStorage.getItem("MenuList");
-            var menumsg = "";
-            var tmpMenuList = [];
-            if (PersonRoleFullName && PersonRolePersonType && PersonTypeName) {
-                $("#lblFullName").text(PersonRoleFullName);
-            }
-            else {
-                window.location.href = "/Login.html";
-            }
-            var dto = {
-                Id: PersonRolePersonType
-            };
-            if (!MenuList) {
-                $.ajax({
-                    type: "POST",
-                    url: "http://localhost:51503/api/Menu/GetMenus",
-                    data: JSON.stringify(dto),// now data come in this function
-                    contentType: "application/json; charset=utf-8",
-                    crossDomain: true,
-                    dataType: "json",
-                    success: function (data, status, jqXHR) {
-
-                        if (data.StatusCode === 200) {
-                            localStorage.setItem("MenuList", JSON.stringify(data.Data));
-                            tmpMenuList = data.Data;
-                            console.log(data.Data);
-                            data.Data.map((item) => {
-                                menumsg += "<li>";
-                                menumsg += " <a class='waves-effect waves-dark' href='" + item.Url + "' aria-expanded='false'><i class='ti-layout-grid2'></i><span class='hide-menu'>" + item.Name + "</span></a>";
-                                menumsg += "</li>";
-                            });
-                            $("#sidebarnav").html(menumsg);
-                        }
-                    },
-
-                    error: function (jqXHR, status) {
-                        // error handler
-                        console.log(jqXHR);
-                        alert('fail' + status.code);
-                    }
-                });
-            }
-            else {
-                tmpMenuList = JSON.parse(MenuList);
-            }
-
-
-            tmpMenuList.map((item) => {
-                menumsg += "<li>";
-                menumsg += " <a class='waves-effect waves-dark' href='"+item.Url+"' aria-expanded='false'><i class='ti-layout-grid2'></i><span class='hide-menu'>"+item.Name+"</span></a>";
-                menumsg += "</li>";
-            })
-            $("#sidebarnav").html(menumsg);
-
-            $("#btnLogOut").click(function () {
-               localStorage.removeItem("PersonRoleFullName");
-                localStorage.removeItem("PersonRolePersonType");
-                localStorage.removeItem("PersonTypeName");
-                localStorage.removeItem("MenuList");
-                window.location.href = "/Login.html";
-
-            });
-
-        });
-    </script>
+    <script src="UI_Service/Login.js"></script>
+    <script src="UI_Service/Menu.js"></script>
+    <script src="UI_Service/Company.js"></script>
 </body>
 
 </html>
