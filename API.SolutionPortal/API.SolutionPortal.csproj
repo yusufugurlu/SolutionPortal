@@ -162,6 +162,7 @@
     <Compile Include="Business\Concrete\CostTypeManager.cs" />
     <Compile Include="Business\Concrete\MenuManager.cs" />
     <Compile Include="Business\Concrete\PersonManager.cs" />
+    <Compile Include="Business\Concrete\TaxCodeManager.cs" />
     <Compile Include="Common\Enums\PersonRoleType.cs" />
     <Compile Include="Common\ServiceResult.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
+    <Compile Include="Controllers\TaxCodeController.cs" />
     <Compile Include="DataAccess\Datas\CompanyData.cs" />
     <Compile Include="DataAccess\Datas\CostCenterData.cs" />
     <Compile Include="DataAccess\Datas\CostTypeData.cs" />
@@ -3557,10 +3559,12 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="TaxCode.html" />
     <Content Include="UI_Service\Company.js" />
     <Content Include="UI_Service\CostType.js" />
     <Content Include="UI_Service\Login.js" />
     <Content Include="UI_Service\Menu.js" />
+    <Content Include="UI_Service\TaxCode.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

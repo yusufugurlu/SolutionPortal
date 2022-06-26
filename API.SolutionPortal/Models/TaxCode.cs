@@ -19,6 +19,7 @@ namespace API.SolutionPortal.Models
         /// <summary>
         /// Vergi Oranı
         /// </summary>
-        public double Rate { get; set; }
+        public float Rate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
