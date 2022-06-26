@@ -1,6 +1,7 @@
 ﻿using API.SolutionPortal.Business.Concrete;
 using API.SolutionPortal.Common;
 using API.SolutionPortal.Dtos;
+using API.SolutionPortal.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,20 @@ namespace API.SolutionPortal.Controllers
         {
             var response = personManager.Login(loginDto);
             var str = JsonConvert.SerializeObject(response);
+            return response;
+        }
+
+        [HttpGet]
+        public ServiceResult GetList()
+        {
+            var response = personManager.GetList();
+            return response;
+        }
+
+        [HttpPost]
+        public ServiceResult Get(Person person)
+        {
+            var response = personManager.Get(person);
             return response;
         }
     }

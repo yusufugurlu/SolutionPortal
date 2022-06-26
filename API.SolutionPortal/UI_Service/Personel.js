@@ -1,7 +1,7 @@
-﻿const GetCostCenter = () => {
+﻿const GetPersons = () => {
     $.ajax({
         type: "GET",
-        url: "api/CostCenter/GetList",
+        url: "api/Person/GetList",
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         //dataType: "json",
@@ -13,20 +13,27 @@
                 if (data.Data.length > 0) {
                     data.Data.map((item) => {
                         companyStr += "<tr>";
-                        companyStr += '<td><button class="btnClickCostCenter btn btn-info" id="btn_' + item.Id + '">Detay</button><button class="btnDeleteCostCenter btn btn-danger" style="margin-left:10px" id="btn_' + item.Id + '">Sil</button></td>';
-                        companyStr += '<td>' + item.CompanyName + ' - ' + item.Company.CompanyDefination +'</td>';
-                        companyStr += '<td>' + item.CostCenterCode + '</td>';
-                        companyStr += '<td>' + item.CostCenterDefination + '</td>';
+                        companyStr += '<td><button class="btnClickPersonel btn btn-info" id="btn_' + item.Id + '">Detay</button><button class="btnDeletePersonel btn btn-danger" style="margin-left:10px" id="btn_' + item.Id + '">Sil</button></td>';
+                        companyStr += '<td>' + item.Company.CompanyCode + ' - ' + item.Company.CompanyDefination + '</td>';
+                        companyStr += '<td>' + item.CostCenter.CostCenterCode + '' + item.CostCenter.CostCenterDefination + '</td>';
+                        companyStr += '<td>' + item.PersonCode + '</td>';
+
+                        companyStr += '<td>' + item.Name + '</td>';
+                        companyStr += '<td>' + item.SecondName + '</td>';
+                        companyStr += '<td>' + item.Surname + '</td>';
+                        companyStr += '<td>' + item.TcNo + '</td>';
                         companyStr += " </tr>";
                     });
+
+                    
                 }
                 else {
                     companyStr += "<tr>";
-                    companyStr += '<td>Vergi Kodu bulunamadı.</td>';
+                    companyStr += '<td>Personel bulunamadı.</td>';
                     companyStr += " </tr>";
                 }
 
-                $("#tBodyCostCenter").html(companyStr);
+                $("#tBodyPerson").html(companyStr);
             }
         },
 
@@ -38,7 +45,7 @@
     });
 }
 
-const GetCostCenterCompany = () => {
+const GetPersonCompany = () => {
     $.ajax({
         type: "GET",
         url: "api/Company/GetList",
@@ -53,11 +60,11 @@ const GetCostCenterCompany = () => {
                 var companyStr = '<option value=""></option>';
                 if (data.Data.length > 0) {
                     data.Data.map((item) => {
-                        companyStr += '<option value=' + item.Id + '>' + item.CompanyCode + ' - ' + item.CompanyDefination +'</option>';
+                        companyStr += '<option value=' + item.Id + '>' + item.CompanyCode + ' - ' + item.CompanyDefination + '</option>';
                     });
                 }
 
-                $("#dropCostCenterCompany").html(companyStr);
+                $("#dropPersonCompany").html(companyStr);
             }
         },
 
@@ -71,10 +78,10 @@ const GetCostCenterCompany = () => {
 
 
 $(function () {
-    GetCostCenter();
-    GetCostCenterCompany();
+    GetPersons();
+    GetPersonCompany();
 
-    $(document).on('click', '.btnDeleteCostCenter', function () {
+    $(document).on('click', '.btnDeletePersonel', function () {
         var id = $(this).attr("id");
         var splitId = id.split("_")[1];
         var dto = {
@@ -82,14 +89,14 @@ $(function () {
         };
         $.ajax({
             type: "POST",
-            url: "api/CostCenter/Delete",
+            url: "api/Person/Delete",
             data: JSON.stringify(dto),// now data come in this function
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
             dataType: "json",
             success: function (data, status, jqXHR) {
                 if (data.StatusCode === 200) {
-                    GetCostCenter();
+                    GetPersons();
                 }
                 else {
                     alert(data.Message);
@@ -105,10 +112,14 @@ $(function () {
     });
 
 
-    $(document).on('click', '.btnClickCostCenter', function () {
-        $("#dropCostCenterCompany").val("");
-        $("#txtCostCenterCode").val("");
-        $("#txtCostCenterDefination").val("");
+    $(document).on('click', '.btnClickPersonel', function () {
+        $("#dropPersonCompany").val("");
+        $("#dropPersonCostCenter").val("");
+        $("#txtPersonelCode").val("");
+        $("#txtPersonelName1").val("");
+        $("#txtPersonelName2").val("");
+        $("#txtPersonelSurname").val("");
+        $("#txtPersonelTC").val("");
         var id = $(this).attr("id");
         var splitId = id.split("_")[1];
         var dto = {
@@ -116,7 +127,7 @@ $(function () {
         };
         $.ajax({
             type: "POST",
-            url: "api/CostCenter/Get",
+            url: "api/Person/Get",
             data: JSON.stringify(dto),// now data come in this function
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
@@ -128,8 +139,18 @@ $(function () {
                     $("#txtCostCenterCode").val(data.Data.CostCenterCode);
                     $("#txtCostCenterDefination").val(data.Data.CostCenterDefination);
 
-                    $("#hdCostCenterClickType").val("2");
-                    $("#hdCostCentereId").val(splitId);
+                    $("#dropPersonCompany").val(data.Data.Company.Id);
+                    $("#dropPersonCostCenter").val(data.Data.CostCenter.Id);
+
+                    $("#txtPersonelCode").val(data.PersonCode);
+                    $("#txtPersonelName1").val(data.Name);
+                    $("#txtPersonelName2").val(data.Data.SecondName);
+                    $("#txtPersonelSurname").val(data.Data.Surname);
+                    $("#txtPersonelTC").val(data.Data.TcNo);
+
+
+                    $("#hdPersonClickType").val("2");
+                    $("#hdPersonId").val(splitId);
                 }
             },
 
@@ -141,12 +162,18 @@ $(function () {
 
     });
 
-    $(document).on('click', '#btnCostCenterSave', function () {
-        var hdCompanyClickType = $("#hdCostCenterClickType").val();
-        var hdCompanyId = $("#hdCostCentereId").val();
-        var dropCostCenterCompany = $("#dropCostCenterCompany").val();
-        var txtCostCenterCode = $("#txtCostCenterCode").val();
-        var txtCostCenterDefination = $("#txtCostCenterDefination").val();
+    $(document).on('click', '#btnPersonSave', function () {
+        var hdCompanyClickType = $("#hdPersonClickType").val();
+        var hdCompanyId = $("#hdPersonId").val();
+
+        var dropPersonCompany = $("#dropPersonCompany").val();
+        var dropPersonCostCenter = $("#dropPersonCostCenter").val();
+        var txtPersonelCode = $("#txtPersonelCode").val();
+        var txtPersonelName1 = $("#txtPersonelName1").val();
+        var txtPersonelName2 = $("#txtPersonelName2").val();
+        var txtPersonelSurname = $("#txtPersonelSurname").val();
+        var txtPersonelTC = $("#txtPersonelTC").val();
+
         var isAddOrUpdate = false;
         try {
             if (hdCompanyClickType === "2") {
@@ -161,39 +188,46 @@ $(function () {
 
         var dto = {
             Id: hdCompanyId,
-            CostCenterCode: txtCostCenterCode,
-            CostCenterDefination: txtCostCenterDefination,
-            CompanyId: dropCostCenterCompany
+            CostCenterId: dropPersonCostCenter,
+            PersonCode: txtPersonelCode,
+            Name: txtPersonelName1,
+            SecondName: txtPersonelName2,
+            Surname: txtPersonelSurname,
+            TcNo: txtPersonelTC,
+            CompanyId: dropPersonCompany
         };
-        $("#btnCostCenterSave").prop("disabled", true);
+        $("#btnPersonSave").prop("disabled", true);
         $.ajax({
             type: "POST",
-            url: "api/CostCenter/Add",
+            url: "api/Person/Add",
             data: JSON.stringify(dto),// now data come in this function
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
             dataType: "json",
             success: function (data, status, jqXHR) {
-                console.log(data);
                 if (data.StatusCode === 200) {
-                    GetCostCenter();
+                    GetPersons();
                     if (isAddOrUpdate) {
-                        $("#hdTaxCodeClickType").val("");
+                        $("#hdPersonClickType").val("");
                         $("#hdTaxCodeId").val("");
                     }
                 }
 
-                $("#dropCostCenterCompany").val("");
-                $("#txtCostCenterCode").val("");
-                $("#txtCostCenterDefination").val("");
+                $("#dropPersonCompany").val("");
+                $("#dropPersonCostCenter").val("");
+                $("#txtPersonelCode").val("");
+                $("#txtPersonelName1").val("");
+                $("#txtPersonelName2").val("");
+                $("#txtPersonelSurname").val("");
+                $("#txtPersonelTC").val("");
 
-                $("#btnCostCenterSave").prop("disabled", false);
+                $("#btnPersonSave").prop("disabled", false);
             },
 
             error: function (jqXHR, status) {
                 // error handler
                 alert('fail' + status.code);
-                $("#btnCostCenterSave").prop("disabled", false);
+                $("#btnPersonSave").prop("disabled", false);
             }
         });
 

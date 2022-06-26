@@ -21,5 +21,6 @@ namespace API.SolutionPortal.Models
         public string Password { get; set; }
         public Company Company { get; set; }
         public int CompanyId { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

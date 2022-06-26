@@ -3567,6 +3567,7 @@
     <Content Include="UI_Service\CostType.js" />
     <Content Include="UI_Service\Login.js" />
     <Content Include="UI_Service\Menu.js" />
+    <Content Include="UI_Service\Personel.js" />
     <Content Include="UI_Service\TaxCode.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

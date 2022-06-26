@@ -1,6 +1,7 @@
 ﻿using API.SolutionPortal.Common;
 using API.SolutionPortal.DataAccess.Datas;
 using API.SolutionPortal.Dtos;
+using API.SolutionPortal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,6 +34,36 @@ namespace API.SolutionPortal.Business.Concrete
                 result.StatusCode = 400;
             }
 
+            return result;
+        }
+
+        public ServiceResult GetList()
+        {
+            ServiceResult result = new ServiceResult();
+            var persons = PersonData.Persons.Where(x => !x.IsDeleted && x.PersonRoleType != Common.Enums.PersonRoleType.Admin).ToList();
+            result.Message = "İşlem başarılı";
+            result.StatusCode = 200;
+            result.Data = persons;
+            return result;
+        }
+
+        public ServiceResult Get(Person person)
+        {
+            ServiceResult result = new ServiceResult();
+            var persons = PersonData.Persons.FirstOrDefault(x => !x.IsDeleted && x.PersonRoleType != Common.Enums.PersonRoleType.Admin && x.Id==person.Id);
+            result.Message = "İşlem başarılı";
+            result.StatusCode = 200;
+            result.Data = persons;
+            return result;
+        }
+
+        public ServiceResult Add(Person person)
+        {
+            ServiceResult result = new ServiceResult();
+            var persons = PersonData.Persons.FirstOrDefault(x => !x.IsDeleted && x.PersonRoleType != Common.Enums.PersonRoleType.Admin && x.Id == person.Id);
+            result.Message = "İşlem başarılı";
+            result.StatusCode = 200;
+            result.Data = persons;
             return result;
         }
     }

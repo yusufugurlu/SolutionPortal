@@ -37,7 +37,7 @@ namespace API.SolutionPortal.Business.Concrete
                 if (com != null)
                 {
                     com.CostCenterCode = costCenter.CostCenterCode;
-                    com.CostCenterCode = costCenter.CostCenterDefination;
+                    com.CostCenterDefination = costCenter.CostCenterDefination;
                     com.CompanyId = costCenter.CompanyId;
                     var company = CompanyData.Companies.FirstOrDefault(x => x.Id == costCenter.CompanyId);
                     com.Company = company;
