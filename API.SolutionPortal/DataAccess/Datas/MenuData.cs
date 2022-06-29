@@ -45,6 +45,42 @@ namespace API.SolutionPortal.DataAccess.Datas
                 Name=" Ana Hesap Eşleştirme",
                 PersonRoleType=Common.Enums.PersonRoleType.Admin,
                 Url="Matching.html",
+            },
+                    new Menu(){
+                Id=7,
+                Name="Departman",
+                PersonRoleType=Common.Enums.PersonRoleType.Admin,
+                Url="Department.html",
+            },
+            new Menu(){
+                Id=8,
+                Name="Avans Talebi",
+                PersonRoleType=Common.Enums.PersonRoleType.Person,
+                Url="javascript:void(0)",
+                ChildMenu=new List<Menu>()
+                {
+                    new Menu()
+                    {
+                     Id=1,
+                    Name="İş Avansı",
+                    PersonRoleType=Common.Enums.PersonRoleType.Person,
+                    Url="BusinessAdvance.html",
+                    },
+                                        new Menu()
+                    {
+                     Id=2,
+                    Name="Seyahat Avansı",
+                    PersonRoleType=Common.Enums.PersonRoleType.Person,
+                    Url="HolidayAdvance.html",
+                    },
+                                                            new Menu()
+                    {
+                     Id=3,
+                    Name="Maaş Avansı",
+                    PersonRoleType=Common.Enums.PersonRoleType.Person,
+                    Url="SlaryAdvance.html",
+                    }
+                }
             }
         };
     }

@@ -160,6 +160,8 @@
     <Compile Include="Business\Concrete\CompanyManager.cs" />
     <Compile Include="Business\Concrete\CostCenterManager.cs" />
     <Compile Include="Business\Concrete\CostTypeManager.cs" />
+    <Compile Include="Business\Concrete\DepartmentManager.cs" />
+    <Compile Include="Business\Concrete\MatchingMasterAccountManager.cs" />
     <Compile Include="Business\Concrete\MenuManager.cs" />
     <Compile Include="Business\Concrete\PersonManager.cs" />
     <Compile Include="Business\Concrete\TaxCodeManager.cs" />
@@ -169,13 +171,16 @@
     <Compile Include="Controllers\CostCenterController.cs" />
     <Compile Include="Controllers\CostTypeController.cs" />
     <Compile Include="Controllers\DefaultController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MatchingMasterAccountController.cs" />
     <Compile Include="Controllers\MenuController.cs" />
     <Compile Include="Controllers\PersonController.cs" />
     <Compile Include="Controllers\TaxCodeController.cs" />
     <Compile Include="DataAccess\Datas\CompanyData.cs" />
     <Compile Include="DataAccess\Datas\CostCenterData.cs" />
     <Compile Include="DataAccess\Datas\CostTypeData.cs" />
+    <Compile Include="DataAccess\Datas\DepartmentData.cs" />
     <Compile Include="DataAccess\Datas\MatchingMasterAccountData.cs" />
     <Compile Include="DataAccess\Datas\MenuData.cs" />
     <Compile Include="DataAccess\Datas\PersonData.cs" />
@@ -192,6 +197,7 @@
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\CostCenter.cs" />
     <Compile Include="Models\CostType.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\MatchingMasterAccount.cs" />
     <Compile Include="Models\Menu.cs" />
     <Compile Include="Models\Person.cs" />
@@ -2640,6 +2646,7 @@
     <Content Include="assets\node_modules\x-editable\dist\jqueryui-editable\img\loading.gif" />
     <Content Include="assets\node_modules\x-editable\dist\jqueryui-editable\js\jqueryui-editable.js" />
     <Content Include="assets\node_modules\x-editable\dist\jqueryui-editable\js\jqueryui-editable.min.js" />
+    <Content Include="BusinessAdvance.html" />
     <Content Include="Company.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -2647,6 +2654,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="CostCenter.html" />
     <Content Include="CostType.html" />
+    <Content Include="Department.html" />
     <Content Include="dist\css\pages\bootstrap-switch.css" />
     <Content Include="dist\css\pages\breadcrumb-page.css" />
     <Content Include="dist\css\pages\chat-app-page.css" />
@@ -2717,10 +2725,12 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="HolidayAdvance.html" />
     <Content Include="Images\login-register.jpg" />
     <Content Include="Images\logo.png" />
     <Content Include="Index.html" />
     <Content Include="Login.html" />
+    <Content Include="Matching.html" />
     <Content Include="Personel.html" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -3561,11 +3571,14 @@
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="SlaryAdvance.html" />
     <Content Include="TaxCode.html" />
     <Content Include="UI_Service\Company.js" />
     <Content Include="UI_Service\CostCenter.js" />
     <Content Include="UI_Service\CostType.js" />
+    <Content Include="UI_Service\Department.js" />
     <Content Include="UI_Service\Login.js" />
+    <Content Include="UI_Service\Matching.js" />
     <Content Include="UI_Service\Menu.js" />
     <Content Include="UI_Service\Personel.js" />
     <Content Include="UI_Service\TaxCode.js" />

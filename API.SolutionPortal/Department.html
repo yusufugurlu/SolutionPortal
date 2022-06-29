@@ -156,7 +156,7 @@
                 <!-- ============================================================== -->
                 <div class="row page-titles">
                     <div class="col-md-5 align-self-center">
-                        <h4 class="text-themecolor">Personel Listesi</h4>
+                        <h4 class="text-themecolor">Departman Tanımlama</h4>
                     </div>
                 </div>
 
@@ -165,48 +165,24 @@
                         <div class="row">
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label class="control-label">Şirket Kodu</label>
-                                    <select class="form-control custom-select" id="dropPersonCompany">
-                                    </select>
+                                    <label for="txtDepartmentCode">Departman Kodu</label>
+                                    <input type="text" class="form-control" id="txtDepartmentCode" aria-describedby="txtDepartmentCode" placeholder="Departman Kodu">
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <label class="control-label">Masraf Merkezi Kodu</label>
-                                <select class="form-control custom-select" id="dropPersonCostCenter"></select>
+                                <label for="txtDepartmentDefination">Departman Tanımı</label>
+                                <input type="text" class="form-control" id="txtDepartmentDefination" aria-describedby="txtDepartmentDefination" placeholder="Departman Tanımı">
                             </div>
 
                             <div class="col-md-4">
                                 <label for="txtPersonelCode">Personel Kodu</label>
                                 <input type="text" class="form-control" id="txtPersonelCode" aria-describedby="txtPersonelCode" placeholder="Personel Kodu">
                             </div>
+
                         </div>
                         <div class="row">
-                            <div class="col-md-4">
-                                <label for="txtPersonelName1">Ad1</label>
-                                <input type="text" class="form-control" id="txtPersonelName12" aria-describedby="txtPersonelName1" placeholder="Ad1">
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="txtPersonelName2">Ad2</label>
-                                <input type="text" class="form-control" id="txtPersonelName2" aria-describedby="txtPersonelName2" placeholder="Ad2">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="txtPersonelSurname">Soyadı</label>
-                                <input type="text" class="form-control" id="txtPersonelSurname" aria-describedby="txtPersonelSurname" placeholder="Soyadı">
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-4">
-                                <label for="txtPersonelTC">TCKN</label>
-                                <input type="text" class="form-control" id="txtPersonelTC" aria-describedby="txtPersonelTC" placeholder="TCKN">
-                            </div>
-                            <div class="col-md-4">
-                                <label class="control-label">Departman</label>
-                                <select class="form-control custom-select" id="dropPersonDepartment"></select>
-                            </div>
                             <div class="col-md-4" style="margin-top:30px">
-                                <button type="button" id="btnPersonSave" class="btn btn-success"> <i class="fa fa-check"></i> Kaydet</button>
+                                <button type="button" id="btnDepartmentSave" class="btn btn-success"> <i class="fa fa-check"></i> Kaydet</button>
                             </div>
 
                         </div>
@@ -216,28 +192,23 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
-                            <h4 class="card-title">Personel Listesi </h4>
-                            <h6 class="card-subtitle">Bu tabloda Personeller listelenmektedir.</h6>
+                            <h4 class="card-title">Departman </h4>
+                            <h6 class="card-subtitle">Bu tabloda Departmanlar listelenmektedir.</h6>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Şirket Kodu</th>
-                                            <th>Masraf Yeri Kodu</th>
+                                            <th>Departman Kodu</th>
+                                            <th>Departman Tanımı</th>
                                             <th>Personel Kodu</th>
-                                            <th>Adı1</th>
-                                            <th>Adı2</th>
-                                            <th>Soyadı</th>
-                                            <th>TCKN</th>
-                                            <th>Departman</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tBodyPerson"></tbody>
+                                    <tbody id="tBodyDepartment"></tbody>
                                 </table>
                             </div>
-                            <input type="hidden" name="hdPersonClickType" id="hdPersonClickType" value="" />
-                            <input type="hidden" name="hdPersonId" id="hdPersonId" value="" />
+                            <input type="hidden" name="hdDepartmentClickType" id="hdDepartmentClickType" value="" />
+                            <input type="hidden" name="hdDepartmentId" id="hdDepartmentId" value="" />
                         </div>
                     </div>
                 </div>
@@ -299,7 +270,7 @@
     <script src="../assets/node_modules/toast-master/js/jquery.toast.js"></script>
     <script src="UI_Service/Login.js"></script>
     <script src="UI_Service/Menu.js"></script>
-    <script src="UI_Service/Personel.js"></script>
+    <script src="UI_Service/Department.js"></script>
 </body>
 
 </html>

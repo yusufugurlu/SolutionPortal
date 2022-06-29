@@ -104,6 +104,13 @@ namespace API.SolutionPortal.Business.Concrete
                     person.CostCenter = costCenter;
                     person.CostCenterId = costCenter.Id;
                 }
+
+                var department = DepartmentData.Departments.FirstOrDefault(x => x.Id == person.DepartmentId);
+                if (costCenter != null)
+                {
+                    person.Department = department;
+                    person.DepartmentId = department.Id;
+                }
                 person.PersonRoleType = Common.Enums.PersonRoleType.Person;
                 person.Password = "123";
                 person.Username = person.Name + "." + person.Surname;
@@ -120,7 +127,7 @@ namespace API.SolutionPortal.Business.Concrete
                     tmpPerson.TcNo = person.TcNo;
                     tmpPerson.SecondName = person.SecondName;
                     tmpPerson.Surname = person.Surname;
-
+                    tmpPerson.PersonCode = person.PersonCode;
                     var company = CompanyData.Companies.FirstOrDefault(x => x.Id == person.CompanyId);
                     if (company != null)
                     {
@@ -133,6 +140,13 @@ namespace API.SolutionPortal.Business.Concrete
                     {
                         tmpPerson.CostCenter = costCenter;
                         tmpPerson.CostCenterId = costCenter.Id;
+                    }
+
+                    var department = DepartmentData.Departments.FirstOrDefault(x => x.Id == person.DepartmentId);
+                    if (costCenter != null)
+                    {
+                        tmpPerson.Department = department;
+                        tmpPerson.DepartmentId = department.Id;
                     }
 
                 }

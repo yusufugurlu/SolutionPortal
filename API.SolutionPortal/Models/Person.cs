@@ -22,5 +22,7 @@ namespace API.SolutionPortal.Models
         public Company Company { get; set; }
         public int CompanyId { get; set; }
         public bool IsDeleted { get; set; }
+        public Department Department { get; set; }
+        public int DepartmentId { get; set; }
     }
 }

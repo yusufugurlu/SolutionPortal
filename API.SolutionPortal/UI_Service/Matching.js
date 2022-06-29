@@ -1,7 +1,7 @@
-﻿const GetPersons = () => {
+﻿const GetMatchingMaster = () => {
     $.ajax({
         type: "GET",
-        url: "api/Person/GetList",
+        url: "api/MatchingMasterAccount/GetList",
         contentType: "application/json; charset=utf-8",
         crossDomain: true,
         //dataType: "json",
@@ -13,28 +13,23 @@
                 if (data.Data.length > 0) {
                     data.Data.map((item) => {
                         companyStr += "<tr>";
-                        companyStr += '<td><button class="btnClickPersonel btn btn-info" id="btn_' + item.Id + '">Detay</button><button class="btnDeletePersonel btn btn-danger" style="margin-left:10px" id="btn_' + item.Id + '">Sil</button></td>';
+                        companyStr += '<td><button class="btnClickMatching btn btn-info" id="btn_' + item.Id + '">Detay</button><button class="btnDeleteMatching btn btn-danger" style="margin-left:10px" id="btn_' + item.Id + '">Sil</button></td>';
                         companyStr += '<td>' + item.Company.CompanyCode + ' - ' + item.Company.CompanyDefination + '</td>';
-                        companyStr += '<td>' + item.CostCenter.CostCenterCode + ' - ' + item.CostCenter.CostCenterDefination + '</td>';
-                        companyStr += '<td>' + item.PersonCode + '</td>';
-
-                        companyStr += '<td>' + item.Name + '</td>';
-                        companyStr += '<td>' + item.SecondName + '</td>';
-                        companyStr += '<td>' + item.Surname + '</td>';
-                        companyStr += '<td>' + item.TcNo + '</td>';
-                        companyStr += '<td>' + item.Department.Code + ' - ' + item.Department.Defination + '</td>';
+                        companyStr += '<td>' + item.FirstCostCenter.CostCenterCode + ' - ' + item.FirstCostCenter.CostCenterDefination + '</td>';
+                        companyStr += '<td>' + item.LastCostCenter.CostCenterCode + ' - ' + item.LastCostCenter.CostCenterDefination + '</td>';
+                        companyStr += '<td>' + item.MasterAccount + '</td>';
                         companyStr += " </tr>";
                     });
 
-                    
+
                 }
                 else {
                     companyStr += "<tr>";
-                    companyStr += '<td>Personel bulunamadı.</td>';
+                    companyStr += '<td>Eşleştirme bulunamadı.</td>';
                     companyStr += " </tr>";
                 }
 
-                $("#tBodyPerson").html(companyStr);
+                $("#tBodyMatching").html(companyStr);
             }
         },
 
@@ -45,7 +40,7 @@
     });
 }
 
-const getCostCenterByCompanyId = (id) => {
+const getCostCenterByCompanyId1 = (id) => {
     var dto = {
         CompanyId: id
     };
@@ -67,38 +62,8 @@ const getCostCenterByCompanyId = (id) => {
                     });
                 }
 
-                $("#dropPersonCostCenter").html(companyStr);
-            }
-        },
-
-        error: function (jqXHR, status) {
-        }
-    });
-
-};
-
-const getDepartment = (id) => {
-    var dto = {
-        CompanyId: id
-    };
-    $.ajax({
-        type: "GET",
-        url: "api/Department/GetList",
-        contentType: "application/json; charset=utf-8",
-        crossDomain: true,
-        dataType: "json",
-        success: function (data, status, jqXHR) {
-
-            if (data.StatusCode === 200) {
-                tmpMenuList = data.Data;
-                var companyStr = '<option value=""></option>';
-                if (data.Data.length > 0) {
-                    data.Data.map((item) => {
-                        companyStr += '<option value=' + item.Id + '>' + item.Code+ '</option>';
-                    });
-                }
-
-                $("#dropPersonDepartment").html(companyStr);
+                $("#dropFirstCostCenter").html(companyStr);
+                $("#dropLastCostCenter").html(companyStr);
             }
         },
 
@@ -138,11 +103,10 @@ const GetPersonCompany = () => {
 
 
 $(function () {
-    GetPersons();
+    GetMatchingMaster();
     GetPersonCompany();
-    getDepartment();
 
-    $(document).on('click', '.btnDeletePersonel', function () {
+    $(document).on('click', '.btnDeleteMatching', function () {
         var id = $(this).attr("id");
         var splitId = id.split("_")[1];
         var dto = {
@@ -150,7 +114,7 @@ $(function () {
         };
         $.ajax({
             type: "POST",
-            url: "api/Person/Delete",
+            url: "api/MatchingMasterAccount/Delete",
             data: JSON.stringify(dto),// now data come in this function
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
@@ -158,13 +122,10 @@ $(function () {
             success: function (data, status, jqXHR) {
                 if (data.StatusCode === 200) {
                     $("#dropPersonCompany").val("");
-                    $("#dropPersonCostCenter").val("");
-                    $("#txtPersonelCode").val("");
-                    $("#txtPersonelName12").val("");
-                    $("#txtPersonelName2").val("");
-                    $("#txtPersonelSurname").val("");
-                    $("#txtPersonelTC").val("");
-                    GetPersons();
+                    $("#dropFirstCostCenter").val("");
+                    $("#dropLastCostCenter").val("");
+                    $("#txtMasterAccount").val("");
+                    GetMatchingMaster();
                 }
                 else {
                     alert(data.Message);
@@ -180,16 +141,11 @@ $(function () {
     });
 
 
-    $(document).on('click', '.btnClickPersonel', function () {
+    $(document).on('click', '.btnClickMatching', function () {
         $("#dropPersonCompany").val("");
-        $("#dropPersonCostCenter").val("");
-        $("#txtPersonelCode").val("");
-        //$("#txtPersonelName1").val("");
-        $("#txtPersonelName2").val("");
-        $("#txtPersonelSurname").val("");
-        $("#txtPersonelTC").val("");
-        $("#txtPersonelCode").val("");
-        
+        $("#dropFirstCostCenter").val("");
+        $("#dropLastCostCenter").val("");
+        $("#txtMasterAccount").val("");
         var id = $(this).attr("id");
         var splitId = id.split("_")[1];
         var dto = {
@@ -197,28 +153,17 @@ $(function () {
         };
         $.ajax({
             type: "POST",
-            url: "api/Person/Get",
+            url: "api/MatchingMasterAccount/Get",
             data: JSON.stringify(dto),// now data come in this function
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
             dataType: "json",
             success: function (data, status, jqXHR) {
                 if (data.StatusCode === 200) {
-                    $("#dropCostCenterCompany").val(data.Data.CompanyId);
-                    $("#txtCostCenterCode").val(data.Data.CostCenterCode);
-                    $("#txtCostCenterDefination").val(data.Data.CostCenterDefination);
-                    $("#dropPersonCompany").val(data.Data.Company.Id);
-                    $("#dropPersonDepartment").val(data.Data.Department.Id);
-
-                    $("#txtPersonelCode").val(data.Data.PersonCode);
-                    $("#txtPersonelName12").val(data.Data.Name);
-                    $("#txtPersonelName2").val(data.Data.SecondName);
-                    $("#txtPersonelSurname").val(data.Data.Surname);
-                    $("#txtPersonelTC").val(data.Data.TcNo);
-                    $("#txtPersonelCode").val(data.Data.PersonCode);
-                    
+                    $("#dropPersonCompany").val(data.Data.CompanyId);
+                   // getCostCenterByCompanyId1(data.Data.CompanyId);
                     var dto1 = {
-                        CompanyId: data.Data.Company.Id
+                        CompanyId: data.Data.CompanyId
                     };
                     $.ajax({
                         type: "POST",
@@ -228,27 +173,31 @@ $(function () {
                         crossDomain: true,
                         dataType: "json",
                         success: function (data1, status, jqXHR) {
-    
+
                             if (data1.StatusCode === 200) {
+                                tmpMenuList = data1.Data;
                                 var companyStr = '<option value=""></option>';
                                 if (data1.Data.length > 0) {
                                     data1.Data.map((item) => {
-                                        companyStr += '<option value="' + item.Id + '">' + item.CostCenterCode + ' - ' + item.CostCenterDefination + '</option>';
+                                        companyStr += '<option value=' + item.Id + '>' + item.CostCenterCode + ' - ' + item.CostCenterDefination + '</option>';
                                     });
                                 }
-                                $("#dropPersonCostCenter").html(companyStr);
-                                $("#dropPersonCostCenter").val(data.Data.CostCenter.Id);
+
+                                $("#dropFirstCostCenter").html(companyStr);
+                                $("#dropLastCostCenter").html(companyStr);
+
+                                $("#dropFirstCostCenter").val(data.Data.FirstCostCenterId);
+                                $("#dropLastCostCenter").val(data.Data.LastCostCenterId);
                             }
                         },
 
                         error: function (jqXHR, status) {
                         }
                     });
-                 
-                    //getCostCenterByCompanyId(data.Data.CompanyId);
-
-                    $("#hdPersonClickType").val("2");
-                    $("#hdPersonId").val(splitId);
+                    $("#dropFirstCostCenter").val(data.Data.FirstCostCenterId);
+                    $("#txtMasterAccount").val(data.Data.MasterAccount);
+                    $("#hdMatchingClickType").val("2");
+                    $("#hdMatchingId").val(splitId);
                 }
             },
 
@@ -261,22 +210,20 @@ $(function () {
     });
 
     $("#dropPersonCompany").change(function () {
+        $("#dropFirstCostCenter").html("");
+        $("#dropLastCostCenter").html("");
         var companyId = this.value;
-        getCostCenterByCompanyId(companyId);
+        getCostCenterByCompanyId1(companyId);
     });
 
-    $(document).on('click', '#btnPersonSave', function () {
-        var hdCompanyClickType = $("#hdPersonClickType").val();
-        var hdCompanyId = $("#hdPersonId").val();
+    $(document).on('click', '#btnMatchingSave', function () {
+        var hdCompanyClickType = $("#hdMatchingClickType").val();
+        var hdCompanyId = $("#hdMatchingId").val();
 
         var dropPersonCompany = $("#dropPersonCompany").val();
-        var dropPersonCostCenter = $("#dropPersonCostCenter").val();
-        var dropPersonDepartment = $("#dropPersonDepartment").val();
-        var txtPersonelCode = $("#txtPersonelCode").val();
-        var txtPersonelName1 = $("#txtPersonelName12").val();
-        var txtPersonelName2 = $("#txtPersonelName2").val();
-        var txtPersonelSurname = $("#txtPersonelSurname").val();
-        var txtPersonelTC = $("#txtPersonelTC").val();
+        var dropFirstCostCenter = $("#dropFirstCostCenter").val();
+        var dropLastCostCenter = $("#dropLastCostCenter").val();
+        var txtMasterAccount = $("#txtMasterAccount").val();
 
         var isAddOrUpdate = false;
         try {
@@ -292,48 +239,42 @@ $(function () {
 
         var dto = {
             Id: hdCompanyId,
-            CostCenterId: dropPersonCostCenter,
-            PersonCode: txtPersonelCode,
-            Name: txtPersonelName1,
-            SecondName: txtPersonelName2,
-            Surname: txtPersonelSurname,
-            TcNo: txtPersonelTC,
-            CompanyId: dropPersonCompany,
-            DepartmentId: dropPersonDepartment
+            FirstCostCenterId: dropFirstCostCenter,
+            LastCostCenterId: dropLastCostCenter,
+            MasterAccount: txtMasterAccount,
+            CompanyId: dropPersonCompany
         };
-        $("#btnPersonSave").prop("disabled", true);
+        $("#btnMatchingSave").prop("disabled", true);
         $.ajax({
             type: "POST",
-            url: "api/Person/Add",
+            url: "api/MatchingMasterAccount/Add",
             data: JSON.stringify(dto),// now data come in this function
             contentType: "application/json; charset=utf-8",
             crossDomain: true,
             dataType: "json",
             success: function (data, status, jqXHR) {
                 if (data.StatusCode === 200) {
-                    $("#dropPersonCostCenter").html("");
-                    GetPersons();
+                    $("#dropFirstCostCenter").html("");
+                    $("#dropLastCostCenter").html("");
+                    GetMatchingMaster();
                     if (isAddOrUpdate) {
-                        $("#hdPersonClickType").val("");
-                        $("#hdTaxCodeId").val("");
+                        $("#hdMatchingClickType").val("");
+                        $("#hdMatchingId").val("");
                     }
                 }
 
                 $("#dropPersonCompany").val("");
-                $("#dropPersonCostCenter").val("");
-                $("#txtPersonelCode").val("");
-                $("#txtPersonelName12").val("");
-                $("#txtPersonelName2").val("");
-                $("#txtPersonelSurname").val("");
-                $("#txtPersonelTC").val("");
+                $("#dropFirstCostCenter").val("");
+                $("#dropLastCostCenter").val("");
+                $("#txtMasterAccount").val("");
 
-                $("#btnPersonSave").prop("disabled", false);
+                $("#btnMatchingSave").prop("disabled", false);
             },
 
             error: function (jqXHR, status) {
                 // error handler
                 alert('fail' + status.code);
-                $("#btnPersonSave").prop("disabled", false);
+                $("#btnMatchingSave").prop("disabled", false);
             }
         });
 

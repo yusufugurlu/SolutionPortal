@@ -6,8 +6,8 @@ using System.Web;
 
 namespace API.SolutionPortal.DataAccess.Datas
 {
-    public static class CompanyData
+    public static class DepartmentData
     {
-        public static List<Company> Companies = new List<Company>();
+        public static List<Department> Departments = new List<Department>();
     }
 }

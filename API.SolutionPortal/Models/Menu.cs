@@ -12,5 +12,6 @@ namespace API.SolutionPortal.Models
         public string Name { get; set; }
         public string Url { get; set; }
         public PersonRoleType PersonRoleType { get; set; }
+        public List<Menu> ChildMenu { get; set; }
     }
 }
