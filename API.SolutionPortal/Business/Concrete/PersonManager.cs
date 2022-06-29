@@ -47,10 +47,29 @@ namespace API.SolutionPortal.Business.Concrete
             return result;
         }
 
+        public ServiceResult Delete(Person person)
+        {
+            ServiceResult result = new ServiceResult();
+            var com = PersonData.Persons.Where(x => x.Id == person.Id).FirstOrDefault();
+            if (com != null)
+            {
+                com.IsDeleted = true;
+                result.StatusCode = 200;
+                result.Message = "İşlem başarılı";
+            }
+            else
+            {
+                result.StatusCode = 400;
+                result.Message = "Şirket bulunamadı.";
+            }
+
+            return result;
+        }
+        
         public ServiceResult Get(Person person)
         {
             ServiceResult result = new ServiceResult();
-            var persons = PersonData.Persons.FirstOrDefault(x => !x.IsDeleted && x.PersonRoleType != Common.Enums.PersonRoleType.Admin && x.Id==person.Id);
+            var persons = PersonData.Persons.FirstOrDefault(x => !x.IsDeleted && x.PersonRoleType != Common.Enums.PersonRoleType.Admin && x.Id == person.Id);
             result.Message = "İşlem başarılı";
             result.StatusCode = 200;
             result.Data = persons;
@@ -60,10 +79,68 @@ namespace API.SolutionPortal.Business.Concrete
         public ServiceResult Add(Person person)
         {
             ServiceResult result = new ServiceResult();
-            var persons = PersonData.Persons.FirstOrDefault(x => !x.IsDeleted && x.PersonRoleType != Common.Enums.PersonRoleType.Admin && x.Id == person.Id);
+            if (person.Id == 0)
+            {
+                var lastPerson = PersonData.Persons.LastOrDefault();
+                if (lastPerson != null)
+                {
+                    person.Id = lastPerson.Id + 1;
+                }
+                else
+                {
+                    person.Id = 1;
+                }
+
+                var company = CompanyData.Companies.FirstOrDefault(x => x.Id == person.CompanyId);
+                if (company != null)
+                {
+                    person.Company = company;
+                    person.CompanyId = company.Id;
+                }
+
+                var costCenter = CostCenterData.CostCenters.FirstOrDefault(x => x.Id == person.CostCenterId);
+                if (costCenter != null)
+                {
+                    person.CostCenter = costCenter;
+                    person.CostCenterId = costCenter.Id;
+                }
+                person.PersonRoleType = Common.Enums.PersonRoleType.Person;
+                person.Password = "123";
+                person.Username = person.Name + "." + person.Surname;
+                PersonData.Persons.Add(person);
+            }
+            else
+            {
+                var tmpPerson = PersonData.Persons.FirstOrDefault(x=>x.Id==person.Id);
+                if (tmpPerson != null)
+                {
+                    tmpPerson.Name = person.Name;
+                    tmpPerson.PersonCode = tmpPerson.PersonCode;
+                    tmpPerson.PersonRoleType = Common.Enums.PersonRoleType.Person;
+                    tmpPerson.TcNo = person.TcNo;
+                    tmpPerson.SecondName = person.SecondName;
+                    tmpPerson.Surname = person.Surname;
+
+                    var company = CompanyData.Companies.FirstOrDefault(x => x.Id == person.CompanyId);
+                    if (company != null)
+                    {
+                        tmpPerson.Company = company;
+                        tmpPerson.CompanyId = company.Id;
+                    }
+
+                    var costCenter = CostCenterData.CostCenters.FirstOrDefault(x => x.Id == person.CostCenterId);
+                    if (costCenter != null)
+                    {
+                        tmpPerson.CostCenter = costCenter;
+                        tmpPerson.CostCenterId = costCenter.Id;
+                    }
+
+                }
+            }
+
             result.Message = "İşlem başarılı";
             result.StatusCode = 200;
-            result.Data = persons;
+            result.Data = true;
             return result;
         }
     }

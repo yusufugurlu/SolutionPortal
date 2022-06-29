@@ -41,5 +41,20 @@ namespace API.SolutionPortal.Controllers
             var response = personManager.Get(person);
             return response;
         }
+
+
+        [HttpPost]
+        public ServiceResult Add(Person person)
+        {
+            var response = personManager.Add(person);
+            return response;
+        }
+
+        [HttpPost]
+        public ServiceResult Delete(Person person)
+        {
+            var response = personManager.Delete(person);
+            return response;
+        }
     }
 }

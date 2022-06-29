@@ -15,7 +15,7 @@
                         companyStr += "<tr>";
                         companyStr += '<td><button class="btnClickPersonel btn btn-info" id="btn_' + item.Id + '">Detay</button><button class="btnDeletePersonel btn btn-danger" style="margin-left:10px" id="btn_' + item.Id + '">Sil</button></td>';
                         companyStr += '<td>' + item.Company.CompanyCode + ' - ' + item.Company.CompanyDefination + '</td>';
-                        companyStr += '<td>' + item.CostCenter.CostCenterCode + '' + item.CostCenter.CostCenterDefination + '</td>';
+                        companyStr += '<td>' + item.CostCenter.CostCenterCode + ' - ' + item.CostCenter.CostCenterDefination + '</td>';
                         companyStr += '<td>' + item.PersonCode + '</td>';
 
                         companyStr += '<td>' + item.Name + '</td>';
@@ -45,6 +45,37 @@
     });
 }
 
+const getCostCenterByCompanyId = (id) => {
+    var dto = {
+        CompanyId: id
+    };
+    $.ajax({
+        type: "POST",
+        url: "api/CostCenter/GetCostCenterByCompanyId",
+        data: JSON.stringify(dto),// now data come in this function
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        dataType: "json",
+        success: function (data, status, jqXHR) {
+
+            if (data.StatusCode === 200) {
+                tmpMenuList = data.Data;
+                var companyStr = '<option value=""></option>';
+                if (data.Data.length > 0) {
+                    data.Data.map((item) => {
+                        companyStr += '<option value=' + item.Id + '>' + item.CostCenterCode + ' - ' + item.CostCenterDefination + '</option>';
+                    });
+                }
+
+                $("#dropPersonCostCenter").html(companyStr);
+            }
+        },
+
+        error: function (jqXHR, status) {
+        }
+    });
+
+};
 const GetPersonCompany = () => {
     $.ajax({
         type: "GET",
@@ -148,6 +179,7 @@ $(function () {
                     $("#txtPersonelSurname").val(data.Data.Surname);
                     $("#txtPersonelTC").val(data.Data.TcNo);
 
+                    getCostCenterByCompanyId(data.Data.CompanyId);
 
                     $("#hdPersonClickType").val("2");
                     $("#hdPersonId").val(splitId);
@@ -160,6 +192,11 @@ $(function () {
             }
         });
 
+    });
+
+    $("#dropPersonCompany").change(function () {
+        var companyId = this.value;
+        getCostCenterByCompanyId(companyId);
     });
 
     $(document).on('click', '#btnPersonSave', function () {
@@ -206,6 +243,7 @@ $(function () {
             dataType: "json",
             success: function (data, status, jqXHR) {
                 if (data.StatusCode === 200) {
+                    $("#dropPersonCostCenter").html("");
                     GetPersons();
                     if (isAddOrUpdate) {
                         $("#hdPersonClickType").val("");

@@ -80,6 +80,15 @@ namespace API.SolutionPortal.Business.Concrete
             return result;
         }
 
+        public ServiceResult GetCostCenterByCompanyId(CostCenter costCenter)
+        {
+            ServiceResult result = new ServiceResult();
+            result.Data = CostCenterData.CostCenters.Where(x => !x.IsDeleted && x.CompanyId==costCenter.CompanyId).ToList();
+            result.StatusCode = 200;
+            result.Message = "İşlem başarılı";
+            return result;
+        }
+
         public ServiceResult GetList()
         {
             ServiceResult result = new ServiceResult();

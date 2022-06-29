@@ -44,5 +44,11 @@ namespace API.SolutionPortal.Controllers
         {
             return _costCenterService.Delete(costCenter);
         }
+
+        [HttpPost]
+        public ServiceResult GetCostCenterByCompanyId(CostCenter costCenter)
+        {
+            return _costCenterService.GetCostCenterByCompanyId(costCenter);
+        }
     }
 }
